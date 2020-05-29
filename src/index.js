@@ -18,3 +18,5 @@ let zr = new Zr({
 })
 
 console.log(zr._data);
+console.log(zr.msg);
+console.log(zr);
