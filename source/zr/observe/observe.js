@@ -1,11 +1,12 @@
 
 function objdefine(data, key, value) {
-  console.log(data, key, value);
   Object.defineProperty(data, key, {
-    getter() {
+    get() {
+      console.log('取值')
       return value
     },
-    setter(newVal) {
+    set(newVal) {
+      console.log('设置值');
       if (newVal === value) return
       value = newVal
     }
@@ -19,7 +20,6 @@ class Observer {
   }
   walk (data) {
     let keys = Object.keys(data)
-    console.log(keys);
     for(let i = 0; i < keys.length; i++){
       let key = keys[i]
       let value = data[key]
