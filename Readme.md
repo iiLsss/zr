@@ -20,3 +20,11 @@ Object.defineProperty(obj, 'msg', {
 console.log(obj.msg) // 取值   我是默认msg
 console.log(obj.msg = 123, proxyValue) // 设置值  123
 ```
+
+zr实现数组的劫持
+
+```js
+
+
+
+```

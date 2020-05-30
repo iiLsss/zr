@@ -1,0 +1,3 @@
+// 主要做的就是拦截用户调用 数组方法 push shift unshift pop reverse sort slice  改变原数组
+
+// concat ...

@@ -17,6 +17,5 @@ let zr = new Zr({
   }
 })
 
-console.log(zr._data);
-console.log(zr.msg);
-console.log(zr);
+// 对原生的方法进行劫持
+console.log(zr.arr.push('1231'));

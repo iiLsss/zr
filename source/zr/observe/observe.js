@@ -16,7 +16,13 @@ function objdefine(data, key, value) {
 
 class Observer {
   constructor(data) {
-    this.walk(data)
+    // 将用户的数据使用object.defineProperty重新定义
+    if (Array.isArray(data)) { // 需要重写 数组方法
+
+    } else {
+      this.walk(data)
+
+    }
   }
   walk (data) {
     let keys = Object.keys(data)
