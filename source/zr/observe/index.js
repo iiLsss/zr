@@ -38,8 +38,7 @@ function proxy (zm, source, key) {
 function initDate(zm) {
   let { data } = zm.$options
   data = zm._data = typeof data === 'function' ? data.call(this) : data || {}
-  console.log(data === zm._data, data === zm.$options.data)
-
+  // console.log(data === zm._data, data === zm.$options.data)
   for (let key in data) {
     proxy(zm, '_data',  key) // 对zm上的取值 赋值操作进行代理
   }

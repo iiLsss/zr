@@ -1,7 +1,5 @@
 import Zr from 'zr'
 
-console.log(Zr);
-
 
 let zr = new Zr({
   el: '#zr',
@@ -18,4 +16,5 @@ let zr = new Zr({
 })
 
 // 对原生的方法进行劫持
-console.log(zr.arr.push('1231'));
+console.log(zr.arr.push('1231'), zr.arr);
+console.log(zr);

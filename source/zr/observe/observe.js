@@ -1,3 +1,4 @@
+import { arrayMethods } from './array'
 
 function objdefine(data, key, value) {
   Object.defineProperty(data, key, {
@@ -16,12 +17,13 @@ function objdefine(data, key, value) {
 
 class Observer {
   constructor(data) {
+    console.log(data)
     // 将用户的数据使用object.defineProperty重新定义
     if (Array.isArray(data)) { // 需要重写 数组方法
-
+      console.log(data)
+      data.__proto__ = arrayMethods
     } else {
       this.walk(data)
-
     }
   }
   walk (data) {
