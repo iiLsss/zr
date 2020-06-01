@@ -1,6 +1,5 @@
 import Zr from 'zr'
 
-console.log(Zr);
 
 
 let zr = new Zr({
@@ -17,6 +16,11 @@ let zr = new Zr({
   }
 })
 
-console.log(zr._data);
-console.log(zr.msg);
-console.log(zr);
+
+
+// console.log(zr._data);
+// console.log(zr.msg);
+// console.log(zr);
+// console.log(zr.info);
+// console.log(zr.info.name, '123');
+// console.log(zr.info.name);

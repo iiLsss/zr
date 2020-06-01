@@ -1,6 +1,6 @@
 import Observer from './observe'
 
-function observer (data) {
+export function observer (data) {
   if (typeof data !== 'object' ||  data == null) {
     return
   }
@@ -24,25 +24,26 @@ export function initState(zm) {
 // 代理数据
 function proxy (zm, source, key) {
   // zr.msg => zr._data.msg
-  // zr.msg = 100 => zr._data.msg = 100 
+  // zr.msg = 100 => zr._data.msg = 100
+  console.log(zm, source, key, zm[source][key]);
   Object.defineProperty(zm, key, {
     set(val) {
       zm[source][key] = val
     },
     get() {
+      // console.log(zm[source][key]);
       return zm[source][key]
     }
   })
 }
 
 function initDate(zm) {
-  let { data } = zm.$options
+  let data = zm.$options.data
   data = zm._data = typeof data === 'function' ? data.call(this) : data || {}
-  console.log(data === zm._data, data === zm.$options.data)
-
+  // console.log(data === zm._data, data === zm.$options.data)
   for (let key in data) {
     proxy(zm, '_data',  key) // 对zm上的取值 赋值操作进行代理
   }
 
-  observer(zm._data)
+  observer(data)
 }
