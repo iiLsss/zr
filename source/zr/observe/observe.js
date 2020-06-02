@@ -1,12 +1,9 @@
 import { observer } from './index'
 export function defineReactive(data, key, value) {
   // 如果value 是一个对象的话，需要深度观察  递归处理
-  // observer(value)
-  // 不支持ie8及is8以下
-  console.log(data, key, value, '====');
   observer(value)
-  console.log(data, key, value);
-
+  
+  // 不支持ie8及is8以下
   Object.defineProperty(data, key, {
     get() {
       console.log(`对 ${data} 的 ${key} 进行取值 ${value}`)
