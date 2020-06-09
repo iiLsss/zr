@@ -23,9 +23,9 @@ class Observer {
   constructor(data) {
     console.log(data)
     // 将用户的数据使用object.defineProperty重新定义
-    if (Array.isArray(data)) { // 需要重写 数组方法
+    if (Array.isArray(data)) { // 需要重写 数组push 等方法
       console.log(data)
-      data.__proto__ = arrayMethods
+      data.__proto__ = arrayMethods // 让数组通过链来查找我们自己编写的原型
     } else {
       this.walk(data)
     }

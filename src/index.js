@@ -15,8 +15,9 @@ let zr = new Zr({
 })
 
 // 对原生的方法进行劫持
-console.log(zr.arr.push('1231'), zr.arr);
-console.log(zr);
+// console.log(zr.arr.push('1231'), zr.arr);
+// console.log(zr);
 
+console.log(zr.arr.push({a: 1}), zr.arr[3].a);
 
 

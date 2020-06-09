@@ -24,7 +24,30 @@ console.log(obj.msg = 123, proxyValue) // 设置值  123
 zr实现数组的劫持
 
 ```js
+let oldArrayProtoMethods = Array.prototype
 
+export let arrayMethods = Object.create(oldArrayProtoMethods)
+
+let methods = [
+  'push',
+  'shift',
+  'unshift',
+  'pop',
+  'reverse',
+  'sort',
+  'slice'
+]
+
+methods.forEach(method => {
+  arrayMethods[method] = function (...args) { // 函数劫持 切片编程
+    console.log(args)
+    let r = oldArrayProtoMethods[method].apply(this, args)
+    // todo
+
+    console.log('调用了 数组劫持')
+    return r
+  }
+})
 
 
 ```
