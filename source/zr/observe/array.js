@@ -20,7 +20,7 @@ let methods = [
   'splice'
 ]
 
-function observerArray (inserted) {// 要循坏数组 依次对数组的每一项进行检测
+export function observerArray (inserted) {// 要循坏数组 依次对数组的每一项进行检测
   for (let i = 0; i < inserted.length; i++) {
     observer(inserted[i])
   }
@@ -28,7 +28,6 @@ function observerArray (inserted) {// 要循坏数组 依次对数组的每一�
 
 methods.forEach(method => {
   arrayMethods[method] = function (...args) { // 函数劫持 切片编程
-    console.log(args)
     let r = oldArrayProtoMethods[method].apply(this, args)
     //  push() 新增 对象
     let inserted

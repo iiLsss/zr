@@ -1,4 +1,4 @@
-import { arrayMethods } from './array'
+import { arrayMethods, observerArray } from './array'
 import { observer } from './index'
 
 export function defineReactive(data, key, value) {
@@ -8,12 +8,13 @@ export function defineReactive(data, key, value) {
   // 不支持ie8及is8以下
   Object.defineProperty(data, key, {
     get() {
-      console.log(`对 ${data} 的 ${key} 进行取值 ${value}`)
+      console.log(`对 ${data} 的 ${key} 进行取值 ${JSON.stringify(value)}`)
       return value
     },
     set(newVal) {
-      console.log(`对 ${data} 的 ${key} 进行设置新 ${newVal}`)
+      console.log(`对 ${data} 的 ${key} 进行设置新 ${JSON.stringify(newVal)}`)
       if (newVal === value) return
+      observer(newVal) // 如果设置的值是一个对象，应该进行监控这个新增的对象
       value = newVal
     }
   })
@@ -24,8 +25,9 @@ class Observer {
     console.log(data)
     // 将用户的数据使用object.defineProperty重新定义
     if (Array.isArray(data)) { // 需要重写 数组push 等方法
-      console.log(data)
       data.__proto__ = arrayMethods // 让数组通过链来查找我们自己编写的原型
+      //  只能拦截数组的方法，数组的每一项 还需要去观测一下
+      observerArray(data)
     } else {
       this.walk(data)
     }

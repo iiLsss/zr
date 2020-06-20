@@ -43,8 +43,20 @@ let methods = [
 
 methods.forEach(method => {
   arrayMethods[method] = function (...args) { // 函数劫持 切片编程
-    console.log(args)
     let r = oldArrayProtoMethods[method].apply(this, args)
+    //  push() 新增 对象进行监控
+    let inserted
+    switch (method) {
+      case 'push':
+      case 'unshift':
+        inserted = args
+        break;
+      case 'splice':
+        inserted = args.slice(2) // [].splice(0, 1, xxx) 获取新增的内容
+      default:
+        break
+    }
+    if(inserted) observerArray(inserted)
     return r
   }
 })
