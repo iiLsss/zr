@@ -5,6 +5,8 @@ let zr = new Zr({
   data() {
     return {
       msg: 'smoke',
+      name: 'zr',
+      age: '16',
       arr: [{a:11}, 22, 33],
       info: {
         name: 'lsss',
@@ -17,7 +19,7 @@ let zr = new Zr({
 // 对原生的方法进行劫持
 
 window.zr = zr
-console.log(zr.arr[0].a = 100000000);
+// console.log(zr.arr[0].a = 100000000);
 
 // observe 不能直接改变索引检测到变化
 // [1,2,3].length -- 因为数组的长度 没有检测

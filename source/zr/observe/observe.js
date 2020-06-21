@@ -22,7 +22,6 @@ export function defineReactive(data, key, value) {
 
 class Observer {
   constructor(data) {
-    console.log(data)
     // 将用户的数据使用object.defineProperty重新定义
     if (Array.isArray(data)) { // 需要重写 数组push 等方法
       data.__proto__ = arrayMethods // 让数组通过链来查找我们自己编写的原型
@@ -33,7 +32,6 @@ class Observer {
     }
   }
   walk (data) {
-    console.log(data, '=====');
     let keys = Object.keys(data)
     for(let i = 0; i < keys.length; i++){
       let key = keys[i]

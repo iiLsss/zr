@@ -43,7 +43,6 @@ methods.forEach(method => {
     }
 
     if(inserted) observerArray(inserted)
-    console.log('调用了 数组劫持')
     return r
   }
 })
