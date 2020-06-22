@@ -60,6 +60,6 @@ methods.forEach(method => {
     return r
   }
 })
-
-
 ```
+
+zr的观察者模式

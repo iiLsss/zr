@@ -21,6 +21,7 @@ Zr.prototype._init = function (options) {
 
 // 用户传入的数据 去更新视图
 Zr.prototype._update = function () {
+  console.log('更新视图');
   let zm = this
   let el = zm.$el
   // 要循环这个元素 将里面的内容 换成我们的数据
@@ -31,11 +32,7 @@ Zr.prototype._update = function () {
   }
   // 对文本进行替换
   compiler(node, zm)
-
-
-  el.appendChild(node)
-  // 需要匹配{{}}方式来进行替换
-
+  el.appendChild(node) // 渲染到页面
 }
 
 // 渲染页面 将组建进行挂载
@@ -50,6 +47,17 @@ Zr.prototype.$mount = function (options) {
   let updateComponent = () => { // 更新组件、渲染组件
     zm._update() // 更新组件
   }
-  new Watcher(zm, updateComponent) // 渲染watcher
+  new Watcher(zm, updateComponent) // 渲染watcher 默认会调用updateComponent这个方法
+  // 我需要让每个数据，他更改需要重新的渲染
 }
 export default Zr
+
+// 1. 默认创建一个渲染的watcher， 这个渲染watcher 默认会执行
+
+// 2 依赖收集
+// pushTarget()     =>   Dep.target = watcher
+// this.getter()    调用当前属性的get方法  给当前属性加了一个dep  dep.addSub(watcher)
+// popTarget()   
+
+// 3. 当用户修改了属性的变化后， 会调用set方法
+// dep.notify()  

@@ -1,21 +1,28 @@
 import { arrayMethods, observerArray } from './array'
 import { observer } from './index'
+import Dep from './dep'
 
 export function defineReactive(data, key, value) {
   // 如果value 是一个对象的话，需要深度观察  递归处理
   observer(value)
-  
+  let dep = new Dep()
   // 不支持ie8及is8以下
   Object.defineProperty(data, key, {
+    /** 依赖收集 */
     get() {
+      if(Dep.target) { // 这次有值 用的是渲染watcher
+        dep.depend() // 他想dep中可以存放watcher, 还希望watcher 中存放多个dep， 实现多对多的关系
+      }
       console.log(`对 ${data} 的 ${key} 进行取值 ${JSON.stringify(value)}`)
       return value
     },
+    /** 通知依赖更新 */
     set(newVal) {
       console.log(`对 ${data} 的 ${key} 进行设置新 ${JSON.stringify(newVal)}`)
       if (newVal === value) return
       observer(newVal) // 如果设置的值是一个对象，应该进行监控这个新增的对象
       value = newVal
+      dep.notify()
     }
   })
 }

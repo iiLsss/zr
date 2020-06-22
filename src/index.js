@@ -18,6 +18,12 @@ let zr = new Zr({
 
 // 对原生的方法进行劫持
 
+setTimeout(() => {
+  zr.msg = '嘿嘿嘿'
+  zr.msg = '哈哈哈'
+  zr.msg = '啦啦啦'
+  zr.msg = '擦擦擦'
+}, 1000)
 window.zr = zr
 // console.log(zr.arr[0].a = 100000000);
 

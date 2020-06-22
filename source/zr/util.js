@@ -18,7 +18,10 @@ export const util = {
     }, zm)
   },
   compilerText(node, zm) { // 编译文本 替换{{}}
-    node.textContent = node.textContent.replace(defaultRE, (...args) => {
+    if (!node.expr) {
+      node.expr = node.textContent // 给节点增加了自定义属性
+    }
+    node.textContent = node.expr.replace(defaultRE, (...args) => {
       return this.getValue(zm, args[1])
     })
   }
@@ -30,7 +33,7 @@ export function compiler(node, zm) { // node 文档碎片
   childNodes.forEach(child => {
     if(child.nodeType == 1) {// 元素
       compiler(child, zm)
-    } else if(child.nodeType == 3){ //文本
+    } else if(child.nodeType == 3){ //文本需要匹配{{}}方式来进行替换
       util.compilerText(child, zm)
     }
   })
