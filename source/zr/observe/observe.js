@@ -1,10 +1,11 @@
-import { arrayMethods, observerArray } from './array'
+import { arrayMethods, observerArray, dependArray } from './array'
 import { observer } from './index'
 import Dep from './dep'
 
 export function defineReactive(data, key, value) {
   // 如果value 是一个对象的话，需要深度观察  递归处理
-  observer(value)
+  let childOb = observer(value)
+  console.log(childOb);
   let dep = new Dep()
   // 不支持ie8及is8以下
   Object.defineProperty(data, key, {
@@ -12,6 +13,10 @@ export function defineReactive(data, key, value) {
     get() {
       if(Dep.target) { // 这次有值 用的是渲染watcher
         dep.depend() // 他想dep中可以存放watcher, 还希望watcher 中存放多个dep， 实现多对多的关系
+        if (childOb) { // ** 数组的依赖收集
+          childOb.dep.depend()
+          dependArray(value)
+        }
       }
       console.log(`对 ${data} 的 ${key} 进行取值 ${JSON.stringify(value)}`)
       return value
@@ -30,6 +35,11 @@ export function defineReactive(data, key, value) {
 class Observer {
   constructor(data) {
     // 将用户的数据使用object.defineProperty重新定义
+    this.dep = new Dep() // 此dep专门给数组设定
+    // 每个对象 包括数组都有一个__ob__属性， 返回当前observe示例
+    Object.defineProperty(data, '__ob__', {
+      get: () => this
+    })
     if (Array.isArray(data)) { // 需要重写 数组push 等方法
       data.__proto__ = arrayMethods // 让数组通过链来查找我们自己编写的原型
       //  只能拦截数组的方法，数组的每一项 还需要去观测一下

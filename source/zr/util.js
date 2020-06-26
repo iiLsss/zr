@@ -22,7 +22,7 @@ export const util = {
       node.expr = node.textContent // 给节点增加了自定义属性
     }
     node.textContent = node.expr.replace(defaultRE, (...args) => {
-      return this.getValue(zm, args[1])
+      return JSON.stringify(this.getValue(zm, args[1]))
     })
   }
 }

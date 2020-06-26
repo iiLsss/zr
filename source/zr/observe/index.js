@@ -4,7 +4,11 @@ export function observer (data) {
   if (typeof data !== 'object' ||  data == null) {
     return
   }
-  new Observer(data)
+  if (data.__ob__) {
+    return data.__ob__
+  }
+
+  return new Observer(data)
 } 
 
 

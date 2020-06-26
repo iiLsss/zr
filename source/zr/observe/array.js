@@ -26,6 +26,15 @@ export function observerArray (inserted) {// 要循坏数组 依次对数组的�
   }
 }
 
+export function dependArray (value) {
+  for (let i = 0; i < value.length; i++) {
+    let currentItem = value[i] // 有可能也是数组
+    currentItem.__ob__ && currentItem.__ob__.dep.depend()
+    if (Array.isArray(currentItem)) {
+      dependArray(currentItem) // 不停的手机数组中的依赖关系
+    }
+  }
+}
 methods.forEach(method => {
   arrayMethods[method] = function (...args) { // 函数劫持 切片编程
     let r = oldArrayProtoMethods[method].apply(this, args)
@@ -43,6 +52,7 @@ methods.forEach(method => {
     }
 
     if(inserted) observerArray(inserted)
+    this.__ob__.dep.notify() // 通知视图更新
     return r
   }
 })

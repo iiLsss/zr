@@ -19,10 +19,13 @@ let zr = new Zr({
 // 对原生的方法进行劫持
 
 setTimeout(() => {
-  zr.msg = '嘿嘿嘿'
-  zr.msg = '哈哈哈'
-  zr.msg = '啦啦啦'
-  zr.msg = '擦擦擦'
+  // zr.msg = '嘿嘿嘿'
+  // zr.msg = '哈哈哈'
+  // zr.msg = '啦啦啦'
+  // zr.msg = '擦擦擦'
+  // 数组更新， 更数组中的对象是可以的，因为我们拦截对象的get和set
+  zr.arr.push(1000)
+  // zr.arr[0].a = '(1000)'
 }, 1000)
 window.zr = zr
 // console.log(zr.arr[0].a = 100000000);
