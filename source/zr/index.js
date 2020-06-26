@@ -50,6 +50,13 @@ Zr.prototype.$mount = function (options) {
   new Watcher(zm, updateComponent) // 渲染watcher 默认会调用updateComponent这个方法
   // 我需要让每个数据，他更改需要重新的渲染
 }
+
+Zr.prototype.$watch = function (key, handler) {
+  // 原理： 创建一个watcher
+  let zm = this
+  new Watcher(zm, key, handler, {user: true}) // user:true 用户自己写的watcher 
+
+}
 export default Zr
 
 // 1. 默认创建一个渲染的watcher， 这个渲染watcher 默认会执行

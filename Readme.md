@@ -63,3 +63,6 @@ methods.forEach(method => {
 ```
 
 zr的观察者模式
+
+
+watch v4

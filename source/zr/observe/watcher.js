@@ -1,4 +1,6 @@
 import { pushTarget, popTarget } from './dep'
+import {util} from '../util'
+
 // 每次产生一个watcher 都要有唯一的标识
 class Watcher {
   /**
@@ -12,18 +14,27 @@ class Watcher {
     this.exprOrFn = exprOrFn
     if (typeof exprOrFn === 'function') {
       this.getter = exprOrFn  // getter 就是new Watcher 传入的第二个参数
+    } else {
+      this.getter = function () { // 如果调用此方法，会将zm上对应的表达式取出来
+        return util.getValue(zm, exprOrFn)
+      }
+    }
+    if (opts.user) { // 标识用户watch
+      this.user = true
     }
     this.cb = cb
     this.deps = []
     this.depsId = new Set()
     this.opts = opts
-    this.get() // 默认创建一个watcher，回调用自身的get方法
+    // 创建watcherde 时候，先将表达式对应的值 取出来
+    this.value = this.get() // 默认创建一个watcher，回调用自身的get方法
   }
   get(){
     pushTarget(this) // 渲染watcher Dep.target = watcher msg变化了，需要让这个watcher重新执行
     // 默认创建wather 会执行这个方法
-    this.getter() // 让当前传入的函数执行
+    let value = this.getter() // 让当前传入的函数执行
     popTarget()
+    return value
   }
   addDep(dep){ // 同一个watcher 不应该重复记录
     let id = dep.id
@@ -37,7 +48,11 @@ class Watcher {
     queryWatcher(this)
   }
   run() {
-    this.get()
+    let value = this.get() // 新值
+    if (this.value !== value) {
+      this.cb(value, this.value)
+    }
+
   }
 }
 

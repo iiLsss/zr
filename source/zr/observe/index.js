@@ -19,7 +19,7 @@ export function initState(zm) {
     initDate(zm)
   }
   if(opts.watch){
-    initWatcher()
+    initWatcher(zm)
   }
   if(opts.computed){
     initComputed()
@@ -49,3 +49,17 @@ function initDate(zm) {
 
   observer(data)
 }
+
+function createWatcher(zm, key, handler) {
+  // 内部使用watch
+  return zm.$watch(key, handler)
+}
+
+function initWatcher(zm) {
+  let watch = zm.$options.watch
+  for(let key in watch) {
+    let handler = watch[key]
+    createWatcher(zm, key, handler)
+  }
+}
+

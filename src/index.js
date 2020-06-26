@@ -13,6 +13,11 @@ let zr = new Zr({
         age: 18
       }
     }
+  },
+  watch:{
+    msg(newVal, oldVal) {
+      console.log(newVal, oldVal);
+    }
   }
 })
 
@@ -24,8 +29,12 @@ setTimeout(() => {
   // zr.msg = '啦啦啦'
   // zr.msg = '擦擦擦'
   // 数组更新， 更数组中的对象是可以的，因为我们拦截对象的get和set
-  zr.arr.push(1000)
+  // zr.arr.push(1000)
   // zr.arr[0].a = '(1000)'
+
+  // watch的使用
+
+  zr.msg = 'wiaawdwadawd'
 }, 1000)
 window.zr = zr
 // console.log(zr.arr[0].a = 100000000);
