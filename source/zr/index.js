@@ -51,10 +51,10 @@ Zr.prototype.$mount = function (options) {
   // 我需要让每个数据，他更改需要重新的渲染
 }
 
-Zr.prototype.$watch = function (key, handler) {
+Zr.prototype.$watch = function (key, handler, opts) {
   // 原理： 创建一个watcher
   let zm = this
-  new Watcher(zm, key, handler, {user: true}) // user:true 用户自己写的watcher 
+  new Watcher(zm, key, handler, {user: true, ...opts}) // user:true 用户自己写的watcher 
 
 }
 export default Zr

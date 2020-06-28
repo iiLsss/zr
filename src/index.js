@@ -11,12 +11,22 @@ let zr = new Zr({
       info: {
         name: 'lsss',
         age: 18
-      }
+      },
+      firstName: 'z',
+      lastName: 'r'
+    }
+  },
+  computed: {
+    fullName() {
+      return this.firstName + this.lastName
     }
   },
   watch:{
-    msg(newVal, oldVal) {
-      console.log(newVal, oldVal);
+    msg: {
+      handler (newVal, oldVal) {
+        console.log(newVal, oldVal);
+      },
+      immediate: true
     }
   }
 })
@@ -34,7 +44,8 @@ setTimeout(() => {
 
   // watch的使用
 
-  zr.msg = 'wiaawdwadawd'
+  // zr.msg = 'wiaawdwadawd'
+  zr.firstName = 'zzzzzzzzz'
 }, 1000)
 window.zr = zr
 // console.log(zr.arr[0].a = 100000000);

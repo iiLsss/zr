@@ -22,19 +22,31 @@ class Watcher {
     if (opts.user) { // 标识用户watch
       this.user = true
     }
+    this.lazy = opts.lazy // 如果这个值为true 说明是计算属性
+    this.dirty = this.lazy
     this.cb = cb
     this.deps = []
     this.depsId = new Set()
     this.opts = opts
+    this.immediate = opts.immediate
     // 创建watcherde 时候，先将表达式对应的值 取出来
-    this.value = this.get() // 默认创建一个watcher，回调用自身的get方法
+    // 如果当前是计算属性 不会默认调用get方法
+    this.value = this.lazy ? undefined : this.get() // 默认创建一个watcher，回调用自身的get方法
+    if (this.immediate) { // 如果有immediate 就直接运行
+      this.cb(this.value)
+    }
   }
   get(){
     pushTarget(this) // 渲染watcher Dep.target = watcher msg变化了，需要让这个watcher重新执行
     // 默认创建wather 会执行这个方法
-    let value = this.getter() // 让当前传入的函数执行
+
+    let value = this.getter.call(this.zm) // 让当前传入的函数执行
     popTarget()
     return value
+  }
+  evaluate() {
+    this.value = this.get()
+    this.dirty = false
   }
   addDep(dep){ // 同一个watcher 不应该重复记录
     let id = dep.id
@@ -44,8 +56,19 @@ class Watcher {
       dep.addSub(this)
     }
   }
+  depend() {
+    let i = this.deps.length
+    while(i --){
+      this.deps[i].depend()
+    }
+  }
   update() { // 如果立即调用get 会导致页面刷新 异步来跟新
-    queryWatcher(this)
+    if (this.lazy) {
+      this.dirty = true
+    } else {
+      queryWatcher(this)
+
+    }
   }
   run() {
     let value = this.get() // 新值
