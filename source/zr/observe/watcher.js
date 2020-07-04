@@ -63,11 +63,10 @@ class Watcher {
     }
   }
   update() { // 如果立即调用get 会导致页面刷新 异步来跟新
-    if (this.lazy) {
+    if (this.lazy) { // 如果是计算属性
       this.dirty = true
     } else {
       queryWatcher(this)
-
     }
   }
   run() {
