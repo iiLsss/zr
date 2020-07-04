@@ -87,6 +87,11 @@ function createComputedGetter(zm, key) {
   }
 }
 
+// 计算属性  默认不执行 等用户取值的时候在执行，会缓存取值的结果
+// 如果依赖的值变化了 会更新dirty属性，再次取值时 可以重新求新值
+
+// watch方法 不能用在模板里，监控的逻辑都放在watch中即可
+// watcher 三类 渲染watcher 用户watcher 计算属性watcher
 function initComputed(zm, computed) {
   console.log(zm, computed)
   // 将计算属性配置 放到zm上
